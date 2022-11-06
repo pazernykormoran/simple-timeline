@@ -1,0 +1,44 @@
+<div class="vertical-menu">
+    <div class = "menuSection">
+        Panel użytkownika
+    </div>
+    {if $rolaUzytkownika == 1}
+    <a href="?task=wydarzenia&action=dodajWydarzenie">Dodaj wydarzenie</a>
+   {/if}
+    
+    <a href="?task=usterki&action=zglosUsterke">Zgłoś usterke</a>
+    <a href="?task=budzet&action=przegladajBudzet">Aktualny budżet</a>
+    <a href="?task=budzet&action=przegladajPlanBudzetowy">Plan budżetowy</a>
+    <a href="?task=usterki&action=przegladajUsterki">Przeglądaj zgłoszone usterki</a>
+
+  </div>
+
+  <style>
+      .vertical-menu {
+  width: 200px; /* Set a width if you like */
+}
+
+.vertical-menu a {
+  background-color: #eee; /* Grey background color */
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.menuSection {
+  background-color: #4CAF50; /* Grey background color */
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu a.active {
+  background-color: #4CAF50; /* Add a green color to the "active/current" link */
+  color: white;
+}
+  </style>

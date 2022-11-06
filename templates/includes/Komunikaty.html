@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Sklep - reklamacja</title>
+</head>
+
+<body>
+
+    <div style="padding-left: 20%; padding-bottom: 50px;">
+     
+      {if $info}
+        <div class="alert alert-success">
+          {$info}
+          </div>
+      {/if}
+      {if $error}
+      <div class="alert alert-danger" role="alert">
+            {$error}
+          </div>
+          {/if}     
+        </div>
+    
