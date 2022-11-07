@@ -85,8 +85,10 @@
 </div>
 
 <div class="container" style="width: 70%; position: absolute; left: 500px;">
+
   <script>
     var editButton = ''
+    var delButton = ''
   </script>
   
 
@@ -95,6 +97,7 @@
     {if $rolaUzytkownika == 1}
       <script>
         var editButton = '<form action="?task=wydarzenia&action=edytujWydarzenie&idWydarzenia={$wydarzenie->getId()}" method="post"><input type="submit" class="btn btn-success" value="Edytuj" /></form>'
+        var delButton = '<form action="?task=wydarzenia&action=usunWydarzeniePerform&idWydarzenia={$wydarzenie->getId()}" method="post"><input type="submit" class="btn btn-warning" value="Usun" /></form>'
       </script>
     {/if}
     <script>
@@ -102,7 +105,7 @@
       element =       {
         "id":"{$wydarzenie->getId()}",
         "title": "{$wydarzenie->getName()}",
-        "description": "{$wydarzenie->getShortDescription()} <p><b>Long description:</b> {$wydarzenie->getLongDescription()}</p>" +editButton,
+        "description": "{$wydarzenie->getShortDescription()} <p><b>Long description:</b> {$wydarzenie->getLongDescription()}</p>" +editButton + delButton,
         "startdate": "{$wydarzenie->getStartDate()}",
         "enddate": "{$wydarzenie->getEndDate()}",
         "date_limit":"mo",

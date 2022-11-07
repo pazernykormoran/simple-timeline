@@ -25,6 +25,7 @@
     <center>
       <h2> Dodawanie wydarzenia</h>
     </center>
+    <p>Uwaga! Obrazek musi mieć 60px x 60px</p>
 
     <form action="?task=wydarzenia&action=dodajWydarzeniePerform" method="post" enctype="multipart/form-data">
       <div class="form-group row">

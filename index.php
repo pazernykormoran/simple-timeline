@@ -37,14 +37,14 @@ if(isset($_GET['task'])){
         }
         callAction($ob);
     }
-    // else if($_GET['task']=='typy') {
-    //     include 'controller/typy.php';
-    //     $ob = new BudzetController();
-    //     if(!$ob->sprawdzCzyZalogowany()){
-    //         $ob->redirect('?task=aplikacja&action=logowanie&error=Użytkownik nie jest zalogowany');
-    //     }
-    //     callAction($ob);
-    // }
+    else if($_GET['task']=='typy') {
+        include 'controller/typy.php';
+        $ob = new TypyController();
+        if(!$ob->sprawdzCzyZalogowany()){
+            $ob->redirect('?task=aplikacja&action=logowanie&error=Użytkownik nie jest zalogowany');
+        }
+        callAction($ob);
+    }
 }
  else {
 include 'controller/aplikacja.php';

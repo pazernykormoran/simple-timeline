@@ -20,48 +20,34 @@
     {include file='includes/uzytkownikWspolnoty.html'}
   </div>
 
-  <div class="container" style="width: 70%; position: absolute; left: 300px;">
+  <div class="container" style="width: 70%; position: absolute; left: 300px; padding-bottom: 50px;">
 
     <center>
-      <h2> Zgłaszanie usterki</h>
+      <h2> Dodawanie typu</h>
     </center>
 
-    <form action="?task=usterki&action=zglosUsterkePerform" method="post">
+    <p>Uwaga! Ikona musi mieć 100px x 100px</p>
+
+    <form action="?task=typy&action=dodajTypPerform" method="post" enctype="multipart/form-data">
       <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Temat</label>
+        <label class="col-sm-2 col-form-label">Nazwa Typu</label>
         <div class="col-4">
-          <input class="form-control" name="temat" type="text" placeholder="Podaj temat usterki">
+          <input class="form-control" name="name" type="text" placeholder="Podaj nazwę typu">
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Dokładny adres</label>
+        <label class="col-sm-2 col-form-label">Ikona</label>
         <div class="col-4">
-          <div class="form-group">
-
-            <select class="form-control" id="adres" name="adres">
-            {foreach from=$adresy item=adres}
-              <option value= {$adres->getBudynek()}> {$adres->getMiejscowosc()}  {$adres->getUlica()}  {$adres->getNumerMieszkania()}  {$adres->getKodPocztowy()}</option>
-              {/foreach}
-
-            </select>
-          </div>
+          <input type="file" name="fileToUpload" id="fileToUpload" >
         </div>
       </div>
 
-
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" placeholder="Podaj opis usterki">Opis usterki</label>
-        <div class="col-7">
-          <textarea class="form-control" name="opis" rows="6"></textarea>
-        </div>
-
-      </div>
 
       <div class="container">
         <div class="row">
           <div class="col-sm">
-            <input type="submit" class="btn btn-success" value="Wyślij zgłoszenie" />
+            <input type="submit" class="btn btn-success" value="Dodaj typ" />
           </div>
           <div class="col-sm">
             <button type="button" onclick="location.href = '?task=aplikacja&action=dashboard';" class="btn btn-secondary ">Powrót</button>

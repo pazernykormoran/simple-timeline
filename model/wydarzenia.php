@@ -46,13 +46,29 @@ class WydarzeniaModel extends Model{
 
     }
 
+    public function usunWydarzenieId($id) {
+        if(isset($id) && $id != '' && $id != null){
+            try {
+                $query="DELETE
+                From events 
+                WHERE id = ".$id;
+                $this->pdo->query($query);
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
     public function dodajWydarzeniePerform($postArray, $filesArray) {
          
 
         if($this->validateWydarzenie($postArray)) {
             $url = '';
 
-            if (isset($filesArray['fileToUpload']['name'])) {
+            if (isset($filesArray['fileToUpload']['name']) && $filesArray['fileToUpload']['name'] != '') {
                 $image_info = getimagesize($filesArray["fileToUpload"]["tmp_name"]);
                 if($image_info[0] != 60 && $image_info[1] != 60){
                     return False;

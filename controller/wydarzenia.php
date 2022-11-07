@@ -28,6 +28,15 @@ class WydarzeniaController extends Controller{
         }
     }
 
+    public function usunWydarzeniePerform() {
+        $model=$this->loadModel('wydarzenia');
+        if($model->usunWydarzenieId($_GET['idWydarzenia'])){
+            $this->redirect('?task=aplikacja&action=dashboard&info=Wydarzenie zostało pomyślnie usunięte');
+        }else{
+            $this->redirect('?task=aplikacja&action=dashboard&error=Błąd, podczas usuwania wydarzenia');
+        }
+    }
+
     public function edytujWydarzeniePerform() {
         $model=$this->loadModel('wydarzenia');
         $wydarzenie = $model->pobierzWydarzenieId($_GET['idWydarzenia']);
