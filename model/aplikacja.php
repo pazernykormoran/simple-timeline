@@ -12,34 +12,46 @@ class AplikacjaModel extends Model{
         if(isset($postArray['login'])&&isset($postArray['haslo'])){
             $query="SELECT id, login as login , password, question, answer, role
             From users 
-            Where login= '".$postArray['login'] ."' AND password= '".$postArray['haslo'] ."'";
+            Where login=?";
             
-            $select=$this->pdo->query($query);
-            $uzytkownik;
+            // $select=$this->pdo->query($query);
+            $prepared = $this->pdo->prepare($query);
+            $prepared->execute([ $postArray['login']]);
+            $select = $prepared->fetchAll();
+            
+            $uzytkownik = null;
             foreach ($select as $row) {
-                
-                $uzytkownik=new User(
-                    $row["id"],$row["login"],$row["question"],$row["answer"],$row["role"]);
+                echo 'asd';
+                if (password_verify($postArray['haslo'], $row['password'])){
+                    echo 'verified';
+                    $uzytkownik=new User(
+                        $row["id"],$row["login"],$row["question"],$row["answer"],$row["role"]);
+                }
+
             }   
         }
-
-        if($select->rowCount()>0){
-            $_SESSION['uzytkownik']=strval( $uzytkownik->getLogin() );
-            $_SESSION['idUzytkownika']=strval( $uzytkownik->getId() );
-            $_SESSION['idWspolnoty']=1;
-            $_SESSION['rolaUzytkownika']=strval( $uzytkownik->getRole() );;
-
-            return true;
-        }else{
+        if($uzytkownik == null){
             return false;
         }
+
+        $_SESSION['uzytkownik']=strval( $uzytkownik->getLogin() );
+        $_SESSION['idUzytkownika']=strval( $uzytkownik->getId() );
+        $_SESSION['idWspolnoty']=1;
+        $_SESSION['rolaUzytkownika']=strval( $uzytkownik->getRole() );;
+
+        return true;
+
     }
     public function zapomnialemHaslaValidate($postArray) {
         if(isset($postArray['login/email'])){
             $query="SELECT question
             From users 
-            Where login= '".$postArray['login/email']."'";
-            $select=$this->pdo->query($query);
+            Where login=?";
+            // $select=$this->pdo->query($query);
+            $prepared = $this->pdo->prepare($query);
+            $prepared->execute([ $postArray['login/email']]);
+            $select = $prepared->fetchAll();
+
             $pytPomocznicze;
             foreach ($select as $row) {
                 $pytPomocznicze=$row["question"];
@@ -61,11 +73,14 @@ class AplikacjaModel extends Model{
         if(isset($postArray['answer'])){
             $query="SELECT id
             From users 
-            Where answer= '".$postArray['answer']."'";
-            $select=$this->pdo->query($query);
-            if($select->rowCount() > 0){
-            return true;
-            }
+            Where answer=?";
+            // $select=$this->pdo->query($query);
+            $prepared = $this->pdo->prepare($query);
+            $prepared->execute([$postArray['answer']]);
+            $select = $prepared->fetchAll();
+            foreach ($select as $row) {
+                return True;
+            }  
             return false;
         }
         else{
@@ -75,14 +90,10 @@ class AplikacjaModel extends Model{
         
     }
     public function zmienHasloPerform($postArray) {
-        //zapisz dane do bazy. (email pobierz z sesji jako email zapisany w funkcji zapomniałęm hasło albo po prostu z użytkownika zapisanego w sesji jeśli jest zalogowany)
-            //postarray ma "haslo"
 
-        //zwraca bool czy udało się zapisać
-        echo 'SIEMAaaaaaaaaa';
         if(isset($postArray['haslo1']) && isset($postArray['haslo2'])){
             //sprawdz czy dobra answer
-            $login;
+            $login = null;
             if(isset($_SESSION['uzytkownik'])){
                 $login=$_SESSION['uzytkownik'];
             }else if(isset($_SESSION['login'])){
@@ -90,10 +101,16 @@ class AplikacjaModel extends Model{
             }
             
             if($login&&$postArray['haslo1']==$postArray['haslo2']){
+                $hashed_password = password_hash($postArray['haslo1'], PASSWORD_DEFAULT);
+                echo $hashed_password;
                 $query="UPDATE users 
-                SET password= '". $postArray['haslo1'] ."'
-                WHERE login = '". $login ."'";
-                $select=$this->pdo->query($query);
+                SET password=? 
+                WHERE login =?";
+                // $select=$this->pdo->query($query);
+                $prepared = $this->pdo->prepare($query);
+                $prepared->execute([$hashed_password, $login]);
+                // $select = $prepared->fetchAll();
+    
                 return true;
             }else{
                 return false;

@@ -21,9 +21,11 @@ class TypyModel extends Model{
    
         $query="SELECT id, name, icon
         From types 
-        WHERE id = ".$id;
+        WHERE id=?";
             
-        $select=$this->pdo->query($query);
+        $prepared = $this->pdo->prepare($query);
+        $prepared->execute([ $id]);
+        $select = $prepared->fetchAll();
         
         foreach ($select as $row) {
             $data[]=new Type($row["id"],$row["name"], $row["icon"]);
@@ -38,8 +40,8 @@ class TypyModel extends Model{
             try {
                 $query="DELETE
                 From types 
-                WHERE id = ".$id;
-                $this->pdo->query($query);
+                WHERE id=?";
+                $this->pdo->prepare($query)->execute([ $id]);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -97,21 +99,6 @@ class TypyModel extends Model{
 
     }
 
-    // public function pobierzAdresyBudynkowWspolnoty($id) {
-    //     $query="SELECT DISTINCT miejscowosc,nrMieszkania,ulica, kodPocztowy, idZewnetrzne
-    //     From adresy
-    //     Where idZewnetrzne IN ( 
-    //         SELECT id 
-    //         From budynki
-    //         Where idWspolnoty =".$id.")";
-            
-    //     $select=$this->pdo->query($query);
-    //     foreach ($select as $row) {
-    //         $data[]=new Adres(null, $row["kodPocztowy"],$row["miejscowosc"],$row["nrMieszkania"],$row["ulica"], $row["idZewnetrzne"]);
-    //     }
-
-    //     return $data;
-    // }
 
    private function dodajTyp($typ) {
         $ins=$this->pdo->prepare('INSERT INTO types (name, icon) VALUES (

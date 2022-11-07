@@ -34,9 +34,11 @@ class WydarzeniaModel extends Model{
         From events as e
         LEFT JOIN `types` as t
         ON t.id = e.typeId
-        WHERE e.id = ".$id;
+        WHERE e.id=?";
             
-        $select=$this->pdo->query($query);
+        $prepared = $this->pdo->prepare($query);
+        $prepared->execute([ $id]);
+        $select = $prepared->fetchAll();
         
         foreach ($select as $row) {
             $data[]=new Event($row["eid"],$row["ename"], $row["startDate"], $row["endDate"], $row["shortDescription"], $row["longDescription"], $row["imgUrl"], new Type($row["tid"], $row["tname"], $row["icon"]));
@@ -51,8 +53,9 @@ class WydarzeniaModel extends Model{
             try {
                 $query="DELETE
                 From events 
-                WHERE id = ".$id;
-                $this->pdo->query($query);
+                WHERE id=? ";
+                $prepared = $this->pdo->prepare($query);
+                $prepared->execute([ $id]);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -76,7 +79,6 @@ class WydarzeniaModel extends Model{
                 $url = $this->zapiszPlik($filesArray);
             }
             
-            // $wydarzenie = new Event(null, date("Y/m/d"),"Zgloszono",$postArray['temat'],$postArray['opis'],$postArray['adres'],$_SESSION['idUzytkownika'],$_SESSION['idWspolnoty']);
             $wydarzenie = new Event(null, $postArray['name'], 
                     date("Y/m/d", strtotime($postArray['startDate'])), date("Y/m/d", strtotime($postArray['endDate'])), 
                     $postArray['shortDescription'], $postArray['longDescription'], $url, null);
@@ -116,21 +118,6 @@ class WydarzeniaModel extends Model{
 
     }
 
-    // public function pobierzAdresyBudynkowWspolnoty($id) {
-    //     $query="SELECT DISTINCT miejscowosc,nrMieszkania,ulica, kodPocztowy, idZewnetrzne
-    //     From adresy
-    //     Where idZewnetrzne IN ( 
-    //         SELECT id 
-    //         From budynki
-    //         Where idWspolnoty =".$id.")";
-            
-    //     $select=$this->pdo->query($query);
-    //     foreach ($select as $row) {
-    //         $data[]=new Adres(null, $row["kodPocztowy"],$row["miejscowosc"],$row["nrMieszkania"],$row["ulica"], $row["idZewnetrzne"]);
-    //     }
-
-    //     return $data;
-    // }
 
    private function dodajWydarzenie($wydarzenie, $typeId) {
         $ins=$this->pdo->prepare('INSERT INTO events (typeId, startDate, endDate, shortDescription, longDescription, imgUrl, name) VALUES (
