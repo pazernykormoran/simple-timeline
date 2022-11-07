@@ -1727,11 +1727,18 @@ tg.TG_TimelineView.prototype = {
       links = this.createEventLinksMenu(ev.link, modal_type),
       ev_descr = (modal_type == "default") ? ev_img + ev.description: ev.description;
       
+      var endDate = ''
+      if (ev.enddateObj.error == 'Invalid date'){
+        
+      }else{
+        endDate = " - "+ ev.enddateObj.format("D", true)
+      }
+
       templ_obj = { 
           title:ev.title,
           description:ev_descr,
           id:eid,
-          startdate: ev.startdateObj.format("D", true) + " - "+ ev.enddateObj.format("D", true),
+          startdate: ev.startdateObj.format("D", true) +endDate ,
           links:links,
           image:ev_img_src,
           video: ev.video
