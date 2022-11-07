@@ -1731,7 +1731,7 @@ tg.TG_TimelineView.prototype = {
           title:ev.title,
           description:ev_descr,
           id:eid,
-          startdate: ev.startdateObj.format("D", true),
+          startdate: ev.startdateObj.format("D", true) + " - "+ ev.enddateObj.format("D", true),
           links:links,
           image:ev_img_src,
           video: ev.video

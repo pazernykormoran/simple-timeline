@@ -36,6 +36,9 @@ class TypyModel extends Model{
     }
 
     public function usunTypId($id) {
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         if(isset($id) && $id != '' && $id != null){
             try {
                 $query="DELETE
@@ -52,7 +55,9 @@ class TypyModel extends Model{
     }
 
     public function dodajTypPerform($postArray, $filesArray) {
-         
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
 
         if($this->validateTyp($postArray)) {
             $url = '';
@@ -76,7 +81,9 @@ class TypyModel extends Model{
     }
 
     public function edytujTypPerform($postArray, $filesArray, $typOrig) {
-
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         if($this->validateTyp($postArray)) {
             $url = $typOrig->getIcon();
 
@@ -101,6 +108,9 @@ class TypyModel extends Model{
 
 
    private function dodajTyp($typ) {
+    if($_SESSION['rolaUzytkownika']!=1){
+        return false;
+    }
         $ins=$this->pdo->prepare('INSERT INTO types (name, icon) VALUES (
             :name, :icon)');
         $ins->bindValue(':name', $typ->getName(), PDO::PARAM_STR);
@@ -109,6 +119,9 @@ class TypyModel extends Model{
     }
 
     private function edytujTyp($typ) {
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         $query = "UPDATE types SET name=?, icon=? WHERE id=?";
         $this->pdo->prepare($query)->execute([ $typ->getName(), $typ->getIcon(), $typ->getId()]);
     }

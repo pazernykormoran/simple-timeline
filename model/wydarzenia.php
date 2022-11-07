@@ -49,6 +49,9 @@ class WydarzeniaModel extends Model{
     }
 
     public function usunWydarzenieId($id) {
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         if(isset($id) && $id != '' && $id != null){
             try {
                 $query="DELETE
@@ -67,7 +70,9 @@ class WydarzeniaModel extends Model{
 
     public function dodajWydarzeniePerform($postArray, $filesArray) {
          
-
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         if($this->validateWydarzenie($postArray)) {
             $url = '';
 
@@ -92,7 +97,9 @@ class WydarzeniaModel extends Model{
     }
 
     public function edytujWydarzeniePerform($postArray, $filesArray, $wydarzenieOrig) {
-
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         if($this->validateWydarzenie($postArray)) {
             $url = $wydarzenieOrig->getImgUrl();
 
@@ -120,6 +127,9 @@ class WydarzeniaModel extends Model{
 
 
    private function dodajWydarzenie($wydarzenie, $typeId) {
+    if($_SESSION['rolaUzytkownika']!=1){
+        return false;
+    }
         $ins=$this->pdo->prepare('INSERT INTO events (typeId, startDate, endDate, shortDescription, longDescription, imgUrl, name) VALUES (
             :typeId, :startDate, :endDate, :shortDescription, :longDescription, :imgUrl, :name)');
         $ins->bindValue(':typeId',$typeId , PDO::PARAM_INT);
@@ -133,6 +143,9 @@ class WydarzeniaModel extends Model{
     }
 
     private function edytujWydarzenie($wydarzenie, $typeId) {
+        if($_SESSION['rolaUzytkownika']!=1){
+            return false;
+        }
         $query = "UPDATE events SET typeId=?, startDate=?, endDate=?, shortDescription=?, longDescription=?, imgUrl=?, name=? WHERE id=?";
         $this->pdo->prepare($query)->execute([ $typeId, 
             $wydarzenie->getStartDate(), $wydarzenie->getEndDate(), $wydarzenie->getShortDescription(), $wydarzenie->getLongDescription(),

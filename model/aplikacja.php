@@ -37,7 +37,7 @@ class AplikacjaModel extends Model{
         $_SESSION['uzytkownik']=strval( $uzytkownik->getLogin() );
         $_SESSION['idUzytkownika']=strval( $uzytkownik->getId() );
         $_SESSION['idWspolnoty']=1;
-        $_SESSION['rolaUzytkownika']=strval( $uzytkownik->getRole() );;
+        $_SESSION['rolaUzytkownika']=$uzytkownik->getRole() ;
 
         return true;
 

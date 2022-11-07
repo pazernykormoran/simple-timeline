@@ -31,8 +31,10 @@
                <th scope="col">Numer</th>
                <th scope="col">Nazwa Typu</th>
                <th scope="col">Ikona</th>
+               {if $rolaUzytkownika == 1}
                <th scope="col">Edytuj</th>
                <th scope="col">Usuń</th>
+               {/if}
              </tr>
            </thead>
            <tbody>
@@ -43,8 +45,10 @@
                <th scope="row">{$smarty.foreach.foo.iteration}</th>
                <td><a href="?task=typy&action=szczegolyUsterki&idUsterki={$typ->getId()}">{$typ->getName()}</a></td>
                <td> <img src="js/timeglider/icons/{$typ->getIcon()}" width="30"> </img> </td>   
+               {if $rolaUzytkownika == 1}
                <td><form action="?task=typy&action=edytujTyp&idTypu={$typ->getId()}" method="post"><input type="submit" class="btn btn-success" value="Edytuj" /></form></td>
-               <td><form action="?task=typy&action=usunTypPerform&idTypu={$typ->getId()}" method="post"><input type="submit" class="btn btn-warning" value="Usuń" /></form></td>        
+               <td><form action="?task=typy&action=usunTypPerform&idTypu={$typ->getId()}" method="post"><input type="submit" class="btn btn-warning" value="Usuń" /></form></td>    
+               {/if}    
              </tr>
 
              {/foreach}

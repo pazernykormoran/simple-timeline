@@ -6,7 +6,9 @@
     <a href="?task=wydarzenia&action=dodajWydarzenie">Dodaj wydarzenie</a>
    {/if}
    <a href="?task=typy&action=wyswietlTypy">Wyświetl Typy</a>
+   {if $rolaUzytkownika == 1}
    <a href="?task=typy&action=dodajTyp">Dodaj Typ</a>
+   {/if}
    <a  onclick="window.print();return false;">Drukuj</a>
 
    <!-- <button type="button" onclick="window.print();return false;" class="btn btn-secondary ">Drukuj</button> -->
