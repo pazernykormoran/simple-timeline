@@ -83,9 +83,14 @@ class WydarzeniaModel extends Model{
                 }
                 $url = $this->zapiszPlik($filesArray);
             }
-            
+            $endDate =  date("Y/m/d", strtotime($postArray['endDate']));
+            // echo $endDate;
+            if (date("Y", strtotime($postArray['endDate']))<1980){
+                $endDate = null;
+                // echo 'null';
+            }
             $wydarzenie = new Event(null, $postArray['name'], 
-                    date("Y/m/d", strtotime($postArray['startDate'])), date("Y/m/d", strtotime($postArray['endDate'])), 
+                    date("Y/m/d", strtotime($postArray['startDate'])), $endDate, 
                     $postArray['shortDescription'], $postArray['longDescription'], $url, null);
             $this->dodajWydarzenie($wydarzenie, $postArray['type']);
             return true;
@@ -112,8 +117,14 @@ class WydarzeniaModel extends Model{
             }
             
             // $wydarzenie = new Event(null, date("Y/m/d"),"Zgloszono",$postArray['temat'],$postArray['opis'],$postArray['adres'],$_SESSION['idUzytkownika'],$_SESSION['idWspolnoty']);
+            $endDate =  date("Y/m/d", strtotime($postArray['endDate']));
+            // echo $endDate;
+            if (date("Y", strtotime($postArray['endDate']))<1980){
+                $endDate = null;
+                // echo 'null';
+            }
             $wydarzenie = new Event($wydarzenieOrig->getId(), $postArray['name'], 
-                    date("Y/m/d", strtotime($postArray['startDate'])), date("Y/m/d", strtotime($postArray['endDate'])), 
+                    date("Y/m/d", strtotime($postArray['startDate'])), $endDate, 
                     $postArray['shortDescription'], $postArray['longDescription'], $url, null);
             $this->edytujWydarzenie($wydarzenie, $postArray['type']);
             return true;
